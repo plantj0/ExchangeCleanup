@@ -20,11 +20,11 @@ $DaysbackLog = "30"
 $DatetoDelete = (Get-Date).AddDays(-$Daysback)
 $DatetoDeleteLog = (Get-Date).AddDays(-$DaysbackLog)
 
-Get-ChildItem $Path -recurse -filter *.log -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -lt $DatetoDeleteLog } | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue 
-Get-ChildItem $Path -recurse -include *.tmp, *.xml, *.tmp -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -lt $DatetoDeleteLog } | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue 
+Get-ChildItem $Path -recurse -force -filter *.log -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -lt $DatetoDeleteLog } | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue 
+Get-ChildItem $Path -recurse -force -include *.tmp, *.xml, *.tmp -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -lt $DatetoDeleteLog } | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue 
 
 
 # The following lines clears temp folder and empty folders in the temp folder.
 
-Get-ChildItem "$env:windir\Temp", "$env:TEMP" -recurse -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -lt $DatetoDelete } | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue 
-Get-ChildItem "$env:windir\Temp", "$env:TEMP" -recurse -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -lt $DatetoDelete } | Where {$_.PSIsContainer -and @(Get-ChildItem -LiteralPath:$_.fullname).Count -eq 0} | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue 
+Get-ChildItem "$env:windir\Temp", "$env:TEMP" -recurse -force -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -lt $DatetoDelete } | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue 
+Get-ChildItem "$env:windir\Temp", "$env:TEMP" -recurse -force -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -lt $DatetoDelete } | Where {$_.PSIsContainer -and @(Get-ChildItem -LiteralPath:$_.fullname).Count -eq 0} | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue 
